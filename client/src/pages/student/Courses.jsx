@@ -2,11 +2,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import Course from "./Course";
 import { useGetPublishedCourseQuery } from "@/features/api/courseApi";
- 
+import { useSelector } from "react-redux";
+
 const Courses = () => {
-  const {data, isLoading, isError} = useGetPublishedCourseQuery();
- 
-  if(isError) return <h1>Some error occurred while fetching courses.</h1>
+  const { data, isLoading, isError } = useGetPublishedCourseQuery();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
+  // 🔍 Debug logs
+  console.log("User:", user);
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("Fetched Courses Data:", data);
+
+  if (isError) return <h1>Some error occurred while fetching courses.</h1>;
+
+  // Optional fallback message if no courses are returned
+  if (!isLoading && (!data || !data.courses?.length)) {
+    return <h2 className="text-center text-gray-500">No courses available.</h2>;
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-[#141414]">
@@ -18,7 +30,9 @@ const Courses = () => {
               <CourseSkeleton key={index} />
             ))
           ) : (
-           data?.courses && data.courses.map((course, index) => <Course key={index} course={course}/>) 
+            data?.courses.map((course, index) => (
+              <Course key={index} course={course} />
+            ))
           )}
         </div>
       </div>
