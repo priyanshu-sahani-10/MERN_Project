@@ -8,18 +8,25 @@ import { Toaster } from "./components/ui/sonner";
 import { useLoadUserQuery } from "./features/api/authApi";
 import LoadingSpinner from "./components/LoadingSpinner";
 
-const Custom = ({ children }) => {
-  const { isLoading } = useLoadUserQuery();
-  return <>{isLoading ? <LoadingSpinner/> : <>{children}</>}</>;
-};
+// const Custom = ({ children }) => {
+//   const { isLoading, isError, error } = useLoadUserQuery();
+
+//   if (isLoading) return <LoadingSpinner />;
+//   if (isError) {
+//     console.error("Load user error:", error);
+//     return <div>Authentication failed. Please login again.</div>;
+//   }
+
+//   return <>{children}</>;
+// };
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={appStore}>
-      <Custom>
+      {/* <Custom> */}
         <App />
         <Toaster />
-      </Custom>
+      {/* </Custom> */}
     </Provider>
    </StrictMode>
 );

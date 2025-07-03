@@ -65,7 +65,7 @@ const CourseDetail = () => {
           <Card>
             <CardHeader>
               <CardTitle>Course Content</CardTitle>
-              <CardDescription>4 lectures</CardDescription>
+              <CardDescription>{course.lectures.length} lectures</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {course.lectures.map((lecture, idx) => (
@@ -83,12 +83,7 @@ const CourseDetail = () => {
           <Card>
             <CardContent className="p-4 flex flex-col">
               <div className="w-full aspect-video mb-4">
-                <ReactPlayer
-                  width="100%"
-                  height={"100%"}
-                  url={course.lectures[0].videoUrl}
-                  controls={true}
-                />
+                <img src={course.courseThumbnail} alt="Courses" />
               </div>
               <h1>Lecture title</h1>
               <Separator className="my-2" />
