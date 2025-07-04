@@ -82,10 +82,13 @@ export const stripeWebhook = async (req, res) => {
     });
 
     event = stripe.webhooks.constructEvent(payloadString, header, secret);
+    console.log("🔔 Webhook event received:", event.type); // 👈 ADD THIS
   } catch (error) {
     console.error("Webhook error:", error.message);
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
+
+  
 
   // Handle the checkout session completed event
   if (event.type === "checkout.session.completed") {
@@ -118,13 +121,19 @@ export const stripeWebhook = async (req, res) => {
       await purchase.save();
 
       // Update user's enrolledCourses
-      await User.findByIdAndUpdate(
+      console.log("Updating user enrolledCourses...");
+      const updatedUser = await User.findByIdAndUpdate(
         purchase.userId,
-        { $addToSet: { enrolledCourses: purchase.courseId._id } }, // Add course ID to enrolledCourses
+        { $addToSet: { enrolledCourses: purchase.courseId._id } },
         { new: true }
       );
+      console.log("Updated user:", updatedUser);
+      console.log("purchase.courseId._id typeof:", typeof purchase.courseId._id);
+      console.log("purchase.userId typeof:", typeof purchase.userId);
 
       // Update course to add user ID to enrolledStudents
+      // console.log("Enrolling user:", purchase.userId);
+
       await Course.findByIdAndUpdate(
         purchase.courseId._id,
         { $addToSet: { enrolledStudents: purchase.userId } }, // Add user ID to enrolledStudents

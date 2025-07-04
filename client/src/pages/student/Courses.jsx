@@ -8,10 +8,10 @@ const Courses = () => {
   const { data, isLoading, isError } = useGetPublishedCourseQuery();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-  // 🔍 Debug logs
-  console.log("User:", user);
-  console.log("isAuthenticated:", isAuthenticated);
-  console.log("Fetched Courses Data:", data);
+  // // 🔍 Debug logs
+  // console.log("User:", user);
+  // console.log("isAuthenticated:", isAuthenticated);
+  // console.log("Fetched Courses Data:", data);
 
   if (isError) return <h1>Some error occurred while fetching courses.</h1>;
 
